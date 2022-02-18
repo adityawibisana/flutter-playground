@@ -38,6 +38,31 @@ class Root extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Login"),
       ),
+      body: Column(
+        children: const <Widget>[
+          FormField(title: 'Username'),
+          FormField(title: 'Password'),
+        ],
+      ),
+    );
+  }
+}
+
+class FormField extends StatelessWidget {
+  const FormField({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          border: const UnderlineInputBorder(),
+          labelText: title,
+        ),
+      ),
     );
   }
 }
