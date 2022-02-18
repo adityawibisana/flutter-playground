@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'custom/custom_text_form.dart';
 import 'custom/custom_button.dart';
+import 'pages/favorite.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,12 +42,21 @@ class Root extends StatelessWidget {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const <Widget>[
-          CustomTextForm(title: "Username"),
-          CustomTextForm(title: "Password"),
+        children: <Widget>[
+          const CustomTextForm(title: "Username"),
+          const CustomTextForm(title: "Password"),
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CustomButton(content: "Login"),
+            padding: const EdgeInsets.all(8.0),
+            child: CustomButton(
+                content: "Login",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Favorite(),
+                    ),
+                  );
+                }),
           ),
         ],
       ),
