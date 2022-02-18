@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'custom/custom_text_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,28 +41,9 @@ class Root extends StatelessWidget {
       ),
       body: Column(
         children: const <Widget>[
-          FormField(title: 'Username'),
-          FormField(title: 'Password'),
+          CustomTextForm(title: "Username"),
+          CustomTextForm(title: "Password")
         ],
-      ),
-    );
-  }
-}
-
-class FormField extends StatelessWidget {
-  const FormField({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        decoration: InputDecoration(
-          border: const UnderlineInputBorder(),
-          labelText: title,
-        ),
       ),
     );
   }
