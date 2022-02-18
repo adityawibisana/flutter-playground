@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learn/dio_network_client.dart';
 import 'custom/custom_text_form.dart';
 import 'custom/custom_button.dart';
 import 'pages/favorite.dart';
@@ -49,12 +50,11 @@ class Root extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
                 content: "Login",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Favorite(),
-                    ),
+                onPressed: () async {
+                  var network = DioNetworkService();
+                  await network.getToken(
+                    "",
+                    "",
                   );
                 }),
           ),
