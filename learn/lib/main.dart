@@ -40,10 +40,14 @@ class Root extends StatelessWidget {
         title: const Text("Login"),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: const <Widget>[
           CustomTextForm(title: "Username"),
           CustomTextForm(title: "Password"),
-          CustomButton(content: "Login"),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: CustomButton(content: "Login"),
+          ),
         ],
       ),
     );
