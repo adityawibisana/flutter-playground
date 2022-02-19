@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/dio_network_client.dart';
+import 'package:learn/entities/base_network_error.dart';
 import 'custom/custom_text_form.dart';
 import 'custom/custom_button.dart';
 import 'pages/favorite.dart';
@@ -58,10 +62,17 @@ class Root extends StatelessWidget {
                 content: "Login",
                 onPressed: () async {
                   var network = DioNetworkService();
-                  await network.getToken(
-                    usernameController.controller.text,
-                    passwordController.controller.text,
-                  );
+                  try {
+                    await network.getToken(
+                      usernameController.controller.text,
+                      passwordController.controller.text,
+                    );
+                  } catch (e) {
+                    var exception = e as DioError;
+                    var error = BaseNetworkError.fromJson(
+                        jsonDecode(exception.response.toString()));
+                    if (error.message.isNotEmpty) {}
+                  }
                 }),
           ),
         ],
