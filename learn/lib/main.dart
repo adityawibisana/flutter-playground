@@ -37,6 +37,9 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final usernameController = CustomTextForm(title: "Username");
+    final passwordController = CustomTextForm(title: "Password");
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
@@ -44,8 +47,8 @@ class Root extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const CustomTextForm(title: "Username"),
-          const CustomTextForm(title: "Password"),
+          usernameController,
+          passwordController,
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
@@ -53,8 +56,8 @@ class Root extends StatelessWidget {
                 onPressed: () async {
                   var network = DioNetworkService();
                   await network.getToken(
-                    "",
-                    "",
+                    usernameController.controller.text,
+                    passwordController.controller.text,
                   );
                 }),
           ),
