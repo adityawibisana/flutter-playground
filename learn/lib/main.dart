@@ -71,7 +71,12 @@ class Root extends StatelessWidget {
                     var exception = e as DioError;
                     var error = BaseNetworkError.fromJson(
                         jsonDecode(exception.response.toString()));
-                    if (error.message.isNotEmpty) {}
+                    if (error.message.isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(error.message),
+                      ));
+                    }
+                    return;
                   }
                 }),
           ),
