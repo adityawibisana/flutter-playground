@@ -38,7 +38,10 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final usernameController = CustomTextForm(title: "Username");
-    final passwordController = CustomTextForm(title: "Password");
+    final passwordController = CustomTextForm(
+      title: "Password",
+      isPassword: true,
+    );
 
     return Scaffold(
       appBar: AppBar(

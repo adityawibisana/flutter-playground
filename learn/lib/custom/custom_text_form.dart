@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomTextForm extends StatelessWidget {
-  CustomTextForm({Key? key, required this.title}) : super(key: key);
+  CustomTextForm({
+    Key? key,
+    this.isPassword = false,
+    required this.title,
+  }) : super(key: key);
 
   final String title;
+  final bool isPassword;
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -16,6 +21,7 @@ class CustomTextForm extends StatelessWidget {
           border: const UnderlineInputBorder(),
           labelText: title,
         ),
+        obscureText: isPassword,
       ),
     );
   }
