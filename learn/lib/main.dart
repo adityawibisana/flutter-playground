@@ -70,12 +70,24 @@ class Root extends StatelessWidget {
         children: <Widget>[
           usernameController,
           passwordController,
-          routerCountroller,
+          Consumer<HiddenFieldCounter>(
+            builder: (context, hiddenFieldCounter, child) => Visibility(
+              child: routerCountroller,
+              visible: hiddenFieldCounter.clickCount >= 10,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
                 content: "Login",
                 onPressed: () async {
+                  if (usernameController.controller.text.isEmpty &&
+                      passwordController.controller.text.isEmpty) {
+                    var counter = context.read<HiddenFieldCounter>();
+                    counter.increment();
+                    return;
+                  }
+
                   var network = DioNetworkService();
                   try {
                     await network.getToken(
