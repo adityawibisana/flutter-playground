@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/dio_network_client.dart';
 import 'package:learn/entities/base_network_error.dart';
+import 'package:provider/provider.dart';
 import 'custom/custom_text_form.dart';
 import 'custom/custom_button.dart';
 import 'pages/favorite.dart';
@@ -33,6 +34,15 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue),
       home: const Root(),
     );
+  }
+}
+
+class HiddenFieldCounter with ChangeNotifier {
+  int clickCount = 0;
+
+  void increment() {
+    clickCount++;
+    notifyListeners();
   }
 }
 
