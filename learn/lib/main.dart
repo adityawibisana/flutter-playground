@@ -57,6 +57,10 @@ class Root extends StatelessWidget {
       isPassword: true,
     );
 
+    final routerCountroller = CustomTextForm(title: "Router");
+    routerCountroller.controller.text =
+        "wss://2359media-router.voiceoverping.net";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
@@ -66,6 +70,7 @@ class Root extends StatelessWidget {
         children: <Widget>[
           usernameController,
           passwordController,
+          routerCountroller,
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
