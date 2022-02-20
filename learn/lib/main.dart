@@ -10,7 +10,10 @@ import 'custom/custom_button.dart';
 import 'pages/favorite.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => HiddenFieldCounter(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
