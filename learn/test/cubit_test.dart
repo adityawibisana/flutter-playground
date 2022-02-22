@@ -17,7 +17,8 @@ void main() async {
     var counter = CounterCubit(0);
     counter.increment();
     expect(1, counter.state, reason: "Because 0 + 1 is 1");
+
     counter.decrement();
-    expect(2, counter.state);
+    expect(0, counter.state);
   });
 }
