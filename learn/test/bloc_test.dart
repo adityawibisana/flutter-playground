@@ -20,15 +20,29 @@ class CounterBloc extends Bloc<CounterEvent, int> {
 }
 
 void main() async {
-  test('Bloc learn test increment', () async {
-    var counterBloc = CounterBloc(0);
+  group('Counter', () {
+    test('Bloc learn test increment', () async {
+      var counterBloc = CounterBloc(0);
 
-    var subscription = counterBloc.stream.listen((event) {
-      expect(event, 1);
+      var subscription = counterBloc.stream.listen((event) {
+        expect(event, 1);
+      });
+      counterBloc.add(CounterEvent.increment);
+
+      await Future.delayed(Duration.zero);
+      await counterBloc.close();
     });
-    counterBloc.add(CounterEvent.increment);
 
-    await Future.delayed(Duration.zero);
-    await counterBloc.close();
+    test('Bloc learn test decrement', () async {
+      var counterBloc = CounterBloc(0);
+
+      var subscription = counterBloc.stream.listen((event) {
+        expect(event, -1);
+      });
+      counterBloc.add(CounterEvent.decrement);
+
+      await Future.delayed(Duration.zero);
+      await counterBloc.close();
+    });
   });
 }
