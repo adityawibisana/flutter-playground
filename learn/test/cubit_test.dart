@@ -36,4 +36,21 @@ void main() async {
     act: (bloc) => [bloc.decrement(), bloc.decrement(), bloc.decrement()],
     expect: () => [-1, -2, -3],
   );
+
+  blocTest<CounterCubit, int>(
+    'emits [int] when increment and decrement is added.',
+    build: () => CounterCubit(0),
+    act: (bloc) => [
+      bloc.increment(),
+      bloc.decrement(),
+      bloc.decrement(),
+      bloc.increment()
+    ],
+    expect: () => [
+      1,
+      0,
+      -1,
+      0,
+    ],
+  );
 }
