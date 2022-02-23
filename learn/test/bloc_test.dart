@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -44,5 +45,16 @@ void main() async {
       await Future.delayed(Duration.zero);
       await counterBloc.close();
     });
+
+    blocTest<CounterBloc, int>(
+      'emits [int] when CounterEvent.increment is added.',
+      build: () => CounterBloc(0),
+      act: (bloc) => [
+        bloc.add(CounterEvent.increment),
+        bloc.add(CounterEvent.increment),
+        bloc.add(CounterEvent.decrement),
+      ],
+      expect: () => [1, 2, 1],
+    );
   });
 }
