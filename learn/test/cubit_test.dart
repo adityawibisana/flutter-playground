@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:bloc_test/bloc_test.dart';
 
 class CounterCubit extends Cubit<int> {
   CounterCubit(int initialState) : super(initialState);
@@ -21,4 +22,11 @@ void main() async {
     counter.decrement();
     expect(0, counter.state);
   });
+
+  blocTest<CounterCubit, int>(
+    'emits [int] when increment is added.',
+    build: () => CounterCubit(0),
+    act: (bloc) => [bloc.increment(), bloc.increment(), bloc.increment()],
+    expect: () => [1, 2, 3],
+  );
 }
