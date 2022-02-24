@@ -14,14 +14,14 @@ class SingletonProvider {
   }
   SingletonProvider._internal();
 
-  T get<T>() {
+  dynamic get<T>() {
     final typeT = T.toString();
     if (typeT == (Dio).toString()) {
-      return dio as T;
+      return dio;
     } else if (typeT == (NetworkService).toString()) {
-      return networkService as T;
+      return networkService;
     } else if (typeT == (NetworkRepository).toString()) {
-      return networkRepository as T;
+      return networkRepository;
     }
     throw Exception("Type of $T has not been instantiated yet.");
   }
