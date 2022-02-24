@@ -2,32 +2,20 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:learn/data/model/login.dart';
+import 'package:learn/data/provider/voiceping_service.dart';
 
-class DioNetworkService {
-  final String baseUrl = "https://voiceoverping.net";
-  final String clientId = "2359media";
-  final String clientSecret = "2359admin";
-  final String grantType = "password";
+class NetworkRepository {
+  final Dio dio;
+  final NetworkService networkService;
 
-  static final Dio dio = Dio();
-
-  static final DioNetworkService _network = DioNetworkService._internal();
-  factory DioNetworkService() {
-    return _network;
-  }
-  DioNetworkService._internal();
+  NetworkRepository({
+    required this.dio,
+    required this.networkService,
+  });
 
   Future<Login> getToken(String username, String password) async {
-    var response = await dio.post(
-      '$baseUrl/v2/oauth/token',
-      data: {
-        'username': username,
-        'password': password,
-        'client_id': clientId,
-        'client_secret': clientSecret,
-        'grant_type': grantType,
-      },
-    );
-    return Login.fromJson(jsonDecode(response.toString()));
+    var apiResult = await networkService.getToken(dio, username, password);
+    final decoded = jsonDecode(apiResult);
+    return Login.fromJson(decoded);
   }
 }

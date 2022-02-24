@@ -7,7 +7,9 @@ import 'package:learn/business_logic/cubit/counter_activation_cubit.dart';
 import 'package:learn/const/enums.dart';
 import 'package:learn/data/repository/dio_network_client.dart';
 import 'package:learn/data/model/base_network_error.dart';
+import 'package:learn/data/repository/repo_factory.dart';
 import 'package:provider/provider.dart';
+import 'data/provider/voiceping_service.dart';
 import 'presentation/widget/custom_text_form.dart';
 import 'presentation/widget/custom_button.dart';
 import 'presentation/widget/material_container.dart';
@@ -64,9 +66,11 @@ class Root extends StatelessWidget {
                       return;
                     }
 
-                    var network = DioNetworkService();
+                    final networkRepository =
+                        SingletonProvider().get<NetworkRepository>();
+
                     try {
-                      await network.getToken(
+                      await networkRepository.getToken(
                         usernameController.controller.text,
                         passwordController.controller.text,
                       );
