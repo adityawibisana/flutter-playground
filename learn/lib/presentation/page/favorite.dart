@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../custom/material_container.dart';
+import '../widget/material_container.dart';
 
 void main() {
   runApp(const MaterialContainer(root: Favorite()));

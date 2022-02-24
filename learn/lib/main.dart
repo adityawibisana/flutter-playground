@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/dio_network_client.dart';
-import 'package:learn/entities/base_network_error.dart';
+import 'package:learn/data/repository/dio_network_client.dart';
+import 'package:learn/data/model/base_network_error.dart';
 import 'package:provider/provider.dart';
-import 'custom/custom_text_form.dart';
-import 'custom/custom_button.dart';
-import 'custom/material_container.dart';
-import 'pages/favorite.dart';
+import 'presentation/widget/custom_text_form.dart';
+import 'presentation/widget/custom_button.dart';
+import 'presentation/widget/material_container.dart';
+import 'presentation/page/favorite.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(

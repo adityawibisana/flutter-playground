@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:learn/entities/login.dart';
+import 'package:learn/data/model/login.dart';
 
 class DioNetworkService {
   final String baseUrl = "https://voiceoverping.net";
