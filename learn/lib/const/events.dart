@@ -1,0 +1,4 @@
+enum UserActionEvent {
+  click,
+  back,
+}

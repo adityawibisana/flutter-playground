@@ -1,15 +1,12 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn/business_logic/bloc/login_use_case_bloc.dart';
 import 'package:learn/business_logic/cubit/counter_activation_cubit.dart';
 import 'package:learn/const/enums.dart';
+import 'package:learn/const/events.dart';
+import 'package:learn/const/states.dart';
 import 'package:learn/data/repository/dio_network_client.dart';
-import 'package:learn/data/model/base_network_error.dart';
 import 'package:learn/data/repository/repo_factory.dart';
-import 'package:provider/provider.dart';
-import 'data/provider/voiceping_service.dart';
 import 'presentation/widget/custom_text_form.dart';
 import 'presentation/widget/custom_button.dart';
 import 'presentation/widget/material_container.dart';
@@ -35,13 +32,22 @@ class Root extends StatelessWidget {
         "wss://2359media-router.voiceoverping.net";
 
     final counterActivationCubit = CounterActivationCubit();
+    final loginUseCaseBloc =
+        LoginUseCaseBloc(SingletonProvider().get<NetworkRepository>());
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
       ),
-      body: BlocProvider<CounterActivationCubit>(
-        create: (_) => counterActivationCubit,
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<CounterActivationCubit>(
+            create: (BuildContext context) => counterActivationCubit,
+          ),
+          BlocProvider<LoginUseCaseBloc>(
+            create: (BuildContext context) => loginUseCaseBloc,
+          ),
+        ],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -58,41 +64,43 @@ class Root extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
-                  content: "Login",
-                  onPressed: () async {
-                    if (usernameController.controller.text.isEmpty &&
-                        passwordController.controller.text.isEmpty) {
-                      counterActivationCubit.increment();
-                      return;
-                    }
+                content: "Login",
+                onPressed: () async {
+                  if (usernameController.controller.text.isEmpty &&
+                      passwordController.controller.text.isEmpty) {
+                    counterActivationCubit.increment();
+                    return;
+                  }
 
-                    final networkRepository =
-                        SingletonProvider().get<NetworkRepository>();
-
-                    try {
-                      await networkRepository.getToken(
-                        usernameController.controller.text,
-                        passwordController.controller.text,
-                      );
-                    } catch (e) {
-                      var exception = e as DioError;
-                      var error = BaseNetworkError.fromJson(
-                          jsonDecode(exception.response.toString()));
-                      if (error.message.isNotEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(error.message),
-                        ));
-                      }
-                      return;
-                    }
+                  loginUseCaseBloc.add(LoginEvent(
+                    event: UserActionEvent.click,
+                    username: usernameController.controller.text,
+                    password: passwordController.controller.text,
+                  ));
+                },
+              ),
+            ),
+            BlocListener<LoginUseCaseBloc, ApiRequestState>(
+              listener: (_, state) {
+                switch (state) {
+                  case ApiRequestState.success:
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const Favorite(),
                       ),
                     );
-                  }),
-            ),
+                    break;
+                  case ApiRequestState.error:
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Invalid username / password"),
+                    ));
+                    break;
+                  default:
+                }
+              },
+              child: const SizedBox(width: 0, height: 0),
+            )
           ],
         ),
       ),
