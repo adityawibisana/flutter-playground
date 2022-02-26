@@ -13,7 +13,15 @@ import 'presentation/widget/material_container.dart';
 import 'presentation/page/favorite.dart';
 
 void main() {
-  runApp(const MaterialContainer(root: Root()));
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<CounterActivationCubit>(
+      create: (BuildContext context) => CounterActivationCubit(),
+    ),
+    BlocProvider<LoginUseCaseBloc>(
+      create: (BuildContext context) =>
+          LoginUseCaseBloc(SingletonProvider().get<NetworkRepository>()),
+    ),
+  ], child: const MaterialContainer(root: Root())));
 }
 
 class Root extends StatelessWidget {
@@ -31,24 +39,9 @@ class Root extends StatelessWidget {
     routerCountroller.controller.text =
         "wss://2359media-router.voiceoverping.net";
 
-    final counterActivationCubit = CounterActivationCubit();
-    final loginUseCaseBloc =
-        LoginUseCaseBloc(SingletonProvider().get<NetworkRepository>());
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-      ),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<CounterActivationCubit>(
-            create: (BuildContext context) => counterActivationCubit,
-          ),
-          BlocProvider<LoginUseCaseBloc>(
-            create: (BuildContext context) => loginUseCaseBloc,
-          ),
-        ],
-        child: Column(
+        appBar: AppBar(title: const Text("Login")),
+        body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             usernameController,
@@ -68,15 +61,15 @@ class Root extends StatelessWidget {
                 onPressed: () async {
                   if (usernameController.controller.text.isEmpty &&
                       passwordController.controller.text.isEmpty) {
-                    counterActivationCubit.increment();
+                    context.read<CounterActivationCubit>().increment();
                     return;
                   }
 
-                  loginUseCaseBloc.add(LoginEvent(
-                    event: UserActionEvent.click,
-                    username: usernameController.controller.text,
-                    password: passwordController.controller.text,
-                  ));
+                  context.read<LoginUseCaseBloc>().add(LoginEvent(
+                        event: UserActionEvent.click,
+                        username: usernameController.controller.text,
+                        password: passwordController.controller.text,
+                      ));
                 },
               ),
             ),
@@ -102,8 +95,6 @@ class Root extends StatelessWidget {
               child: const SizedBox(width: 0, height: 0),
             )
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
