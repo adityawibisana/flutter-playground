@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn/business_logic/bloc/notes_list_use_case_bloc.dart';
 
 import '../../business_logic/bloc/login_use_case_bloc.dart';
 import '../../business_logic/cubit/counter_activation_cubit.dart';
@@ -14,6 +15,8 @@ class AppRouter {
 
   final CounterActivationCubit counterActivationCubit =
       CounterActivationCubit();
+
+  final NoteListBloc noteListBloc = NoteListBloc();
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -31,7 +34,14 @@ class AppRouter {
 
       case '/favorite':
         return MaterialPageRoute(
-          builder: (_) => const Favorite(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => noteListBloc,
+              )
+            ],
+            child: const Favorite(),
+          ),
         );
 
       default:
