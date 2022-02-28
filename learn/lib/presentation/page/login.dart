@@ -8,7 +8,6 @@ import '../../const/events.dart';
 import '../../const/states.dart';
 import '../widget/custom_button.dart';
 import '../widget/custom_text_form.dart';
-import 'favorite.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
