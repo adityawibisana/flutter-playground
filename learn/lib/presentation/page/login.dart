@@ -63,11 +63,8 @@ class Login extends StatelessWidget {
               listener: (_, state) {
                 switch (state) {
                   case ApiRequestState.success:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Favorite(),
-                      ),
+                    Navigator.of(context).pushNamed(
+                      '/favorite',
                     );
                     break;
                   case ApiRequestState.error:
