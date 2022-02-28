@@ -6,11 +6,12 @@ import 'presentation/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
+  final storage = await HydratedStorage.build(
+      storageDirectory: await getApplicationDocumentsDirectory());
+  HydratedBlocOverrides.runZoned(
+    () => runApp(MyApp()),
+    storage: storage,
   );
-
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -28,8 +28,7 @@ class NoteListState {
 
 enum UserNoteEvent { initial, create, read, update, delete }
 
-class NoteListBloc extends Bloc<UserNoteEvent, NoteListState>
-    with HydratedMixin {
+class NoteListBloc extends HydratedBloc<UserNoteEvent, NoteListState> {
   NoteListBloc() : super(NoteListState(notes: <Note>[])) {
     on<UserNoteEvent>((event, emit) {
       switch (event) {
